@@ -1,0 +1,43 @@
+﻿@model User
+
+<div class="modal fade" id="formAccauntRegistrationModal" tabindex="-1" aria-labelledby="formAccauntRegistrationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="formAccauntRegistrationModalLabel">Registration</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="registrationForm" class="ajax-form" method="post" asp-controller="Account" asp-action="Registration">
+                    <div class="mt-3">
+                        <input type="text" asp-for="UserName" class="form-control" />
+                        <label>🪪 User name</label>
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <div class="mt-3">
+                        <input type="email" asp-for="Email" class="form-control" />
+                        <label>📧 Email</label>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="mt-3">
+                        <div class="input-group">
+                            <input type="password" asp-for="Password" class="form-control" id="formSignupPassword" placeholder="*****" required />
+                            <button class="btn btn-warning p-0 d-flex align-items-center justify-content-center" type="button" onclick="togglePasswordVisibility()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-lock2" viewBox="0 0 16 16">
+                                    <path d="M8 5a1 1 0 0 1 1 1v1H7V6a1 1 0 0 1 1-1m2 2.076V6a2 2 0 1 0-4 0v1.076c-.54.166-1 .597-1 1.224v2.4c0 .816.781 1.3 1.5 1.3h3c.719 0 1.5-.484 1.5-1.3V8.3c0-.627-.46-1.058-1-1.224" />
+                                    <path d="M4 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm0 1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1" />
+                                </svg>
+                            </button>
+                        </div>
+                        <label>🔒 Password</label>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="mt-2">
+                        <button type="submit" class="btn btn-dark">Register</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

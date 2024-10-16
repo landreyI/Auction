@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Welcome to Auction";
+}
+
+<div class="container text-center mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="display-4">Welcome to Auction</h1>
+            <p class="lead text-muted">Your ultimate platform for bidding, buying, and selling unique items.</p>
+            <hr class="my-4">
+            @if (!User.Identity.IsAuthenticated)
+            {
+                <p>Join us today and discover exclusive deals or list your items for auction. Our platform brings the auction experience to your fingertips!</p>
+                <a class="btn btn-warning btn-lg" href="#" data-bs-toggle="modal" data-bs-target="#formAccauntRegistrationModal">Get Started</a>
+                <a class="btn btn-dark btn-lg ms-2" href="#" data-bs-toggle="modal" data-bs-target="#formAccauntAuthorizationModal">Login</a>
+            }
+            else
+            {
+                <a class="btn btn-warning fs-3" href="/Auction/GetAllLots">Start shopping</a>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4 text-center">
+            <div class="card border-0">
+                <img src="/img/Bid.png" class="card-img-top" alt="Bid">
+                <div class="card-body">
+                    <h5 class="card-title">Bid on Items</h5>
+                    <p class="card-text">Place your bids on a variety of rare and unique items. Don't miss out!</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 text-center">
+            <div class="card border-0">
+                <img src="/img/Sell.png" class="card-img-top" alt="Sell">
+                <div class="card-body">
+                    <h5 class="card-title">Sell Your Items</h5>
+                    <p class="card-text">Easily list your items for auction and reach a global audience of bidders.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 text-center">
+            <div class="card border-0">
+                <img src="/img/Win.png" class="card-img-top" alt="Win">
+                <div class="card-body">
+                    <h5 class="card-title">Win Big</h5>
+                    <p class="card-text">Win exclusive auctions and claim items you’ve always dreamed of owning.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,48 @@
+﻿@model Chat
+
+@if (Model != null)
+{
+    var sender = Model.User1.UserId == ViewBag.UserId ? Model.User2 : Model.User1;
+    var recipient = Model.User1.UserId != ViewBag.UserId ? Model.User2 : Model.User1;
+
+    <div class="container mt-3" style="display: flex; flex-direction: column; height: 75vh; max-width: 95%; margin: auto;">
+        <!-- Messages Display Area -->
+        <div class="messages-container border border-2 border-dark" style="flex-grow: 1; overflow-y: auto; padding: 10px;">
+            <ul id="messagesLisChat" style="list-style-type: none; padding: 0;">
+                @if (Model.Messages != null && Model.Messages.Any())
+                {
+                    @foreach (var message in Model.Messages.OrderBy(m => m.SentDateTime))
+                    {
+                        string fontColor;
+                        if (message.IdSender == ViewBag.UserId) fontColor = "primary";
+                        else fontColor = "success";
+
+                        <div class="d-flex align-items-start">
+                            <div class="me-0">
+                                <message user-login="@message.Sender.UserName" message="@message.MessageText"
+                                         date-time="@message.SentDateTime" id-message="@message.IdMessage" font-color="@fontColor"></message>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <li>No messages yet.</li>
+                }
+            </ul>
+        </div>
+
+        <!-- Message Input Area -->
+        <div class="message-input border border-2 border-dark" style="display: flex; padding: 10px;">
+            <form asp-controller="User" asp-action="SendMessage" method="post" class="ajax-form" style="display: flex; width: 100%; gap: 10px;">
+                <input type="hidden" name="chatId" value="@Model.IdChat" />
+                <input type="hidden" name="senderNick" value="@recipient.UserName" />
+                <input type="hidden" name="senderId" value="@recipient.UserId" />
+                <input type="hidden" name="recipientId" value="@sender.UserId" />
+
+                <input id="messageInputPersonalChat" class="form-control" type="text" name="message" style="flex-grow: 1; flex-basis: 0;" placeholder="Type your message..." />
+                <input id="sendButtonPersonalChat" class="btn btn-success" type="submit" value="Send Message" />
+            </form>
+        </div>
+    </div>
+}

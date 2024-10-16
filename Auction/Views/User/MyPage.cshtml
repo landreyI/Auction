@@ -1,0 +1,235 @@
+﻿@model User
+
+@{
+    ViewData["Title"] = "Personal Account";
+}
+@if(Model == null)
+{
+    <div class="alert alert-danger text-center mt-3" role="alert">
+        <h4 class="alert-heading">Such user does not exist</h4>
+    </div>
+}
+else
+{
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg">
+                    <!-- Card Header -->
+                    <div class="card-header text-center bg-dark text-white">
+                        <h3 class="mb-0">Personal Account</h3>
+                    </div>
+    
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        <div class="row">
+                            <!-- Account Info Section -->
+                            @if (ViewBag.CheckAccount == true)
+                            {
+                                <div class="col-md-6">
+                                    <h5 class="card-title">Welcome, <strong>@Model.UserName</strong>!</h5>
+                                    <p class="card-text">You can manage your personal information and account details here.</p>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="col-md-6">
+                                    <p class="card-text">This page of user @Model.UserName.</p>
+                                </div>
+                            }
+    
+                            <!-- Account Details Section -->
+                            <div class="col-md-6">
+                                <ul class="list-group">
+                                    <li class="list-group-item"><strong>Email:</strong> @Model.Email</li>
+                                    <li class="list-group-item"><strong>Username:</strong> @Model.UserName</li>
+                                    <li class="list-group-item"><strong>Member since:</strong> @Model.CreatedAt.ToShortDateString()</li>
+                                </ul>
+                            </div>
+                        </div>
+    
+                        
+                            <div class="d-flex justify-content-between mt-4">
+                                @if (ViewBag.CheckAccount == true)
+                                {
+                                    <div class="dropdown">
+    
+                                        <button class="btn btn-outline-warning dropdown-toggle" type="button" id="dropdownMenuAccount" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Account Settings
+                                        </button>
+
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuAccount">
+                                            <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#myPurchasesModal">My purchases</button></li>
+                                            <li><a class="dropdown-item" href="/Account/Clouse">Log Out</a></li>
+                                            <li><button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#myAutoBidsModal">My automatic bids</button></li>
+                                        </ul>
+                                </div>
+                                }
+                                else
+                                {
+                                    <a href="/User/PersonalChat?recipientId=@Model.UserId" class="btn btn-warning">Write</a>
+                                }
+                            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#myLotsModal">My lots</button>
+                            </div>
+    
+                    </div>
+    
+                    <!-- Card Footer
+                    <div class="card-footer text-center">
+                        <small class="text-muted">Last login: Model.LastLogin.ToString("MMMM dd, yyyy")</small>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal fade" id="myLotsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog" style="max-width: 600px;">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title">My lots</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+    
+                    @if (Model.Lots == null || Model.Lots.Count == 0)
+                    {
+                        <div class="alert alert-warning text-center mt-3" role="alert">
+                            <h4 class="alert-heading">You don't have any items listed yet</h4>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="container">
+                            <ul class="list-group">
+                                @foreach (var it in Model.Lots)
+                                {
+                                    <a href="/Auction/InfoLot?idLot=@it.LotId" class="text-decoration-none mb-2">
+                                        <li class="list-group-item d-flex justify-content-between align-items-center bg-light rounded">
+                                            <div>
+                                                <strong>Title:</strong> @it.Title<br />
+                                                <strong>Price:</strong> @it.CurrentPrice$<br />
+
+                                                
+                                            </div>
+                                            <div class="auction-timer d-flex justify-content-center align-items-center text-dark" data-idlot="@it.LotId" data-end-time="@it.EndTime.ToString("yyyy-MM-ddTHH:mm:ss")">
+                                                <div class="alert-secondary rounded text-center mx-1 flex-fill">
+                                                    <span class="fs-6 d-block days px-1"></span>
+                                                </div>
+                                                :
+                                                <div class="alert-secondary rounded text-center mx-1 flex-fill">
+                                                    <span class="fs-6 d-block hrs px-1"></span>
+                                                </div>
+                                                :
+                                                <div class="alert-secondary rounded text-center mx-1 flex-fill">
+                                                    <span class="fs-6 d-block min px-1"></span>
+                                                </div>
+                                                :
+                                                <div class="alert-secondary rounded text-center mx-1 flex-fill">
+                                                    <span class="fs-6 d-block sec px-1"></span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </a>
+
+
+                                }
+                            </ul>
+                        </div>
+                    }
+    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Clouse</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="modal fade" id="myPurchasesModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title">My Purchases</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @if (Model.Purchases == null || Model.Purchases.Count == 0)
+                    {
+                        <div class="alert alert-warning text-center mt-3" role="alert">
+                            <h4 class="alert-heading">You haven't made any purchases yet.</h4>
+                            <p>Browse our listings and make your first purchase!</p>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="container">
+                            <ul class="list-group">
+                                @foreach (var purchase in Model.Purchases)
+                                {
+                                    <li class="list-group-item d-flex justify-content-between align-items-center bg-light mb-2 rounded">
+                                        <div>
+                                            <strong>Lot:</strong> @purchase.Lot.Title <br />
+                                            <strong>Price:</strong> $@purchase.FinalPrice <br />
+                                            <strong>Date:</strong> @purchase.PurchaseDate.ToString("MMMM dd, yyyy")
+                                        </div>
+                                        <a href="/Auction/InfoLot?idLot=@purchase.LotId" class="btn btn-warning btn-sm">Show</a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="myAutoBidsModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                    <h5 class="modal-title">My Automatic Bids</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    @if (ViewBag.AutoBidsUser == null)
+                    {
+                        <div class="alert alert-warning text-center mt-3" role="alert">
+                            <h4 class="alert-heading">You don't have auto bids</h4>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="container">
+                            <ul class="list-group">
+                                @foreach (var autoBid in ViewBag.AutoBidsUser)
+                                {
+                                    <li id="autoBid-@autoBid.LotAutoBid.LotId" class="list-group-item d-flex justify-content-between align-items-center bg-light mb-2 rounded">
+                                        <div>
+                                            <strong>Name lot:</strong> @autoBid.LotAutoBid.Title <br />
+                                            <strong>Max bid:</strong> @autoBid.MaxBid <br />
+                                            <strong>Rate bid:</strong> @autoBid.RateBid
+                                        </div>
+                                        <form method="post" asp-controller="User" asp-action="DeleteAutoBid" class="ajax-form" id="deleteAutoBidForm">
+                                            <input type="hidden" name="idLot" value="@autoBid.LotAutoBid.LotId" />
+
+                                            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                        </form>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
