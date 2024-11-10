@@ -37,6 +37,16 @@ namespace Auction.Service
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
 
+        public async Task JoinGroupLotChat(string lotId)
+        {
+            await Groups.AddToGroupAsync(Context.ConnectionId, "LotChat-" + lotId);
+        }
+
+        public async Task LeaveGroupLotChat(string lotId)
+        {
+            await Groups.RemoveFromGroupAsync(Context.ConnectionId, "LotChat-" + lotId);
+        }
+
         public async Task SendMessageToGroupLot(string lotId, string nickname, string message)
         {
             await Clients.Group("LotChat-" + lotId).SendAsync("ReceiveMessageGroupLot", nickname, message);

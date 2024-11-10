@@ -34,7 +34,7 @@
 
         <!-- Message Input Area -->
         <div class="message-input border border-2 border-dark" style="display: flex; padding: 10px;">
-            <form asp-controller="User" asp-action="SendMessage" method="post" class="ajax-form" style="display: flex; width: 100%; gap: 10px;">
+            <form asp-controller="User" asp-action="SendMessage" id="personalChatForm" method="post" class="ajax-form" style="display: flex; width: 100%; gap: 10px;">
                 <input type="hidden" name="chatId" value="@Model.IdChat" />
                 <input type="hidden" name="senderNick" value="@recipient.UserName" />
                 <input type="hidden" name="senderId" value="@recipient.UserId" />

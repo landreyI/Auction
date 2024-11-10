@@ -40,6 +40,9 @@
 
             li.appendChild(span);
             messagesList.appendChild(li);
+
+            let container = document.querySelector('.messages-container');
+            container.scrollTop = container.scrollHeight;
         }
     });
 
@@ -48,6 +51,8 @@
     connection.start()
         .then(function () {
             console.log("SignalR connected successfully.");
+            let container = document.querySelector('.messages-container');
+            container.scrollTop = container.scrollHeight;
         })
         .catch(function (err) {
             console.error("SignalR connection failed:", err);

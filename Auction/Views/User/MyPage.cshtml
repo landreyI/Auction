@@ -82,16 +82,15 @@ else
             </div>
         </div>
     </div>
-    
+
     <div class="modal fade" id="myLotsModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog" style="max-width: 600px;">
+        <div class="modal-dialog modal-dialog-centered modal-lg" style="width: 60vw; height: 80vh">
             <div class="modal-content">
                 <div class="modal-header bg-warning">
                     <h5 class="modal-title">My lots</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-    
                     @if (Model.Lots == null || Model.Lots.Count == 0)
                     {
                         <div class="alert alert-warning text-center mt-3" role="alert">
@@ -100,55 +99,64 @@ else
                     }
                     else
                     {
-                        <div class="container">
-                            <ul class="list-group">
-                                @foreach (var it in Model.Lots)
-                                {
-                                    <a href="/Auction/InfoLot?idLot=@it.LotId" class="text-decoration-none mb-2">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center bg-light rounded">
-                                            <div>
-                                                <strong>Title:</strong> @it.Title<br />
-                                                <strong>Price:</strong> @it.CurrentPrice$<br />
-
-                                                
-                                            </div>
-                                            <div class="auction-timer d-flex justify-content-center align-items-center text-dark" data-idlot="@it.LotId" data-end-time="@it.EndTime.ToString("yyyy-MM-ddTHH:mm:ss")">
-                                                <div class="alert-secondary rounded text-center mx-1 flex-fill">
-                                                    <span class="fs-6 d-block days px-1"></span>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-warning text-center">
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col" style="width: 110px;">Image</th>
+                                        <th scope="col">Current Price</th>
+                                        <th scope="col">Total bids</th>
+                                        <th scope="col">Timer</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var it in Model.Lots)
+                                    {
+                                        <tr onclick="window.location.href='/Auction/InfoLot?idLot=@it.LotId'" style="cursor: pointer;">
+                                            <td>@it.Title</td>
+                                            <td class="text-center">
+                                                <img src="@it.ImgPath" alt="Auction Item" class="img-fluid rounded shadow-sm" style="max-width: 100px;">
+                                            </td>
+                                            <td>$@it.CurrentPrice</td>
+                                            <th>@it.TotalBids</th>
+                                            <td>
+                                                <div class="auction-timer d-flex justify-content-center align-items-center text-dark" data-idlot="@it.LotId" data-end-time="@it.EndTime.ToString("yyyy-MM-ddTHH:mm:ss")">
+                                                    <div class="alert-secondary rounded text-center mx-1 flex-fill">
+                                                        <span class="fs-6 d-block days px-1"></span>
+                                                    </div>
+                                                    :
+                                                    <div class="alert-secondary rounded text-center mx-1 flex-fill">
+                                                        <span class="fs-6 d-block hrs px-1"></span>
+                                                    </div>
+                                                    :
+                                                    <div class="alert-secondary rounded text-center mx-1 flex-fill">
+                                                        <span class="fs-6 d-block min px-1"></span>
+                                                    </div>
+                                                    :
+                                                    <div class="alert-secondary rounded text-center mx-1 flex-fill">
+                                                        <span class="fs-6 d-block sec px-1"></span>
+                                                    </div>
                                                 </div>
-                                                :
-                                                <div class="alert-secondary rounded text-center mx-1 flex-fill">
-                                                    <span class="fs-6 d-block hrs px-1"></span>
-                                                </div>
-                                                :
-                                                <div class="alert-secondary rounded text-center mx-1 flex-fill">
-                                                    <span class="fs-6 d-block min px-1"></span>
-                                                </div>
-                                                :
-                                                <div class="alert-secondary rounded text-center mx-1 flex-fill">
-                                                    <span class="fs-6 d-block sec px-1"></span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </a>
-
-
-                                }
-                            </ul>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     }
-    
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Clouse</button>
+                    <button type="button" class="btn btn-dark" data-bs-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
     </div>
-    
-    
+
+
+
     <div class="modal fade" id="myPurchasesModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
+        <div class="modal-dialog modal-dialog-centered modal-lg" style="width: 70vw; height: 80vh">
             <div class="modal-content">
                 <div class="modal-header bg-warning">
                     <h5 class="modal-title">My Purchases</h5>
@@ -164,20 +172,28 @@ else
                     }
                     else
                     {
-                        <div class="container">
-                            <ul class="list-group">
-                                @foreach (var purchase in Model.Purchases)
-                                {
-                                    <li class="list-group-item d-flex justify-content-between align-items-center bg-light mb-2 rounded">
-                                        <div>
-                                            <strong>Lot:</strong> @purchase.Lot.Title <br />
-                                            <strong>Price:</strong> $@purchase.FinalPrice <br />
-                                            <strong>Date:</strong> @purchase.PurchaseDate.ToString("MMMM dd, yyyy")
-                                        </div>
-                                        <a href="/Auction/InfoLot?idLot=@purchase.LotId" class="btn btn-warning btn-sm">Show</a>
-                                    </li>
-                                }
-                            </ul>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-warning text-center">
+                                    <tr>
+                                        <th scope="col">Lot</th>
+                                        <th scope="col" style="width: 110px;">Img</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var purchase in Model.Purchases)
+                                    {
+                                        <tr onclick="window.location.href='/Auction/InfoLot?idLot=@purchase.LotId'" style="cursor: pointer;">
+                                            <td>@purchase.Lot.Title</td>
+                                            <td><img src="@purchase.Lot.ImgPath" alt="Auction Item" class="img-fluid rounded shadow-sm" style="max-width: 100px;"></td>
+                                            <td>$@purchase.FinalPrice</td>
+                                            <td>@purchase.PurchaseDate.ToString("MMMM dd, yyyy")</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     }
                 </div>
@@ -188,8 +204,9 @@ else
         </div>
     </div>
 
+
     <div class="modal fade" id="myAutoBidsModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" style="max-width: 600px;">
+        <div class="modal-dialog modal-dialog-centered" style="width: 60vw; height: 80vh">
             <div class="modal-content">
                 <div class="modal-header bg-warning">
                     <h5 class="modal-title">My Automatic Bids</h5>

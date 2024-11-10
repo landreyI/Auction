@@ -385,21 +385,5 @@ namespace AuctionController.Controllers
 
             return Json(new { success = true });
         }
-
-        [Authorize]
-        [HttpPost]
-        public async Task ConnectLotChat(int? idLot)
-        {
-            int IdUser = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            await _notification.ConnectionLotChat(idLot.Value, IdUser);
-        }
-
-        [Authorize]
-        [HttpPost]
-        public async Task DisconnectedLotChat(int? idLot)
-        {
-            int IdUser = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            await _notification.DisconnectedLotChat(idLot.Value, IdUser);
-        }
     }
 }

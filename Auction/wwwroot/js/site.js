@@ -33,6 +33,11 @@ $(document).on('submit', '.ajax-form', function (event) {
                     let idLot = form.find('input[name="idLot"]').val();
                     $(`#autoBid-${idLot}`).remove();
                 }
+                if (form.attr('id') === 'personalChatForm') {
+                    document.getElementById("messageInputPersonalChat").value = "";
+                    return;
+                }
+
                 showMessage("Successful!");
 
                 // Вызов инициализации наблюдателей для новых элементов

@@ -82,6 +82,9 @@ $(document).on('submit', '.lotForm', function (event) {
                 if (form.attr('id') === 'updateLotForm') {
                     window.location.href = '/Auction/InfoLot?idLot=' + response.idLot;
                 }
+                if (form.attr('id') === 'lotCreateForm') {
+                    window.location.href = '/Home/Home';
+                }
                 showMessage("Successful!");
             }
             else {

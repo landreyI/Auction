@@ -17,12 +17,29 @@
 
             li.appendChild(span);
             messagesList.appendChild(li);
+
+            let container = document.querySelector('.messages-container');
+            container.scrollTop = container.scrollHeight;
         }
     });
 
     try {
         await connection.start();
         document.getElementById("sendButtonLotChat").disabled = false;
+
+        var lotId = document.getElementById("idLotChat").value;
+        await connection.invoke("JoinGroupLotChat", lotId);
+
+        connection.onclose(async () => {
+            await connection.invoke("LeaveGroupLotChat", lotId);
+            console.log("Connection closed, user left the group.");
+        });
+
+        // Удаление из группы при закрытии страницы
+        window.addEventListener("beforeunload", async () => {
+            await connection.invoke("LeaveGroupLotChat", lotId);
+        });
+
     } catch (err) {
         console.error(err.toString());
     }
@@ -34,6 +51,7 @@
 
         try {
             await connection.invoke("SendMessageToGroupLot", lotId, nickname, message);
+            document.getElementById("messageInputLotChat").value = "";
         } catch (err) {
             console.error(err.toString());
         }
